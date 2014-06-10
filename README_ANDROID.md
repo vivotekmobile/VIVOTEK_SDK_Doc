@@ -19,9 +19,9 @@ public class MainActivity extends Activity implements DeviceRollingControllerDel
     {
         deviceRollingController = new DeviceRollingController();
         
-        // Init the DeviceRollingController with register server, delegate and context.
+        // Init the DeviceRollingController with P2P server, delegate and context.
         // A DeviceRollingController instance can be reuse for connecting to different devices, you don't need to create another new instance for each device.
-        deviceRollingController.initial(MainActivity.this, MainActivity.this.getApplicationContext(), YOUR_VIVOTEK_REGISTER_SERVER_IP, YOUR_VIVOTEK_REGISTER_SERVER_PORT);
+        deviceRollingController.initial(MainActivity.this, MainActivity.this.getApplicationContext(), YOUR_VIVOTEK_P2P_SERVER_IP, YOUR_VIVOTEK_P2P_SERVER_PORT);
         
         // As long as the DeviceRollingController has init, you can always call this function to establish P2P connection and get the latest P2P ports for your device
         deviceRollingController.getDeviceInfo(YOUR_VIVOTEK_DEVICE_ID, YOUR_VIVOTEK_USERNAME, YOUR_VIVOTEK_PASSWORD);
