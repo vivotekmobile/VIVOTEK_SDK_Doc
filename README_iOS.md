@@ -18,10 +18,10 @@ In your ViewController implement:
 {
     [super viewDidLoad];
 
-    // Init the DeviceRollingController with register server and delegate. 
+    // Init the DeviceRollingController with P2P server and delegate. 
     // A DeviceRollingController instance can be reuse for connecting to different devices, you don't need to create another new instance for each device.
     
-    self.deviceRollingController = [[DeviceRollingController alloc] initWithRegisterServerIP:YOUR_VIVOTEK_REGISTER_SERVER_IP port:YOUR_VIVOTEK_REGISTER_SERVER_PORT delegate:self];
+    self.deviceRollingController = [[DeviceRollingController alloc] initWithP2PServerIP:YOUR_VIVOTEK_P2P_SERVER_IP port:YOUR_VIVOTEK_P2P_SERVER_PORT delegate:self];
 
     // As long as the DeviceRollingController has init, you can always call this function to establish P2P connection and get the latest P2P ports for your device
     [self.deviceRollingController getDeviceInfoOfID:YOUR_VIVOTEK_DEVICE_ID
