@@ -22,7 +22,7 @@ DeviceRollingController header:
 
 @end
 ```
-
+#### How to use
 In your ViewController header:
 
 ```objective-c
@@ -60,7 +60,7 @@ In your ViewController implement:
 }
 ```
 
-### Installation
+#### Installation
 - Copy DeviceRolling.framework to your project path
 - Add DeviceRolling.framework to your project Build Phases -> Link Binary With Libraries
 - Select "libstdc++ (GNU C++ standard library)" in Build Settings -> C++ Standard Library
@@ -68,7 +68,7 @@ In your ViewController implement:
 - Remove "armv7s" "arm64" from Build Settings -> Valid Architectures
 - Run your project
 
-### Note
+#### Note
 - DeviceRolling.framework doesn't support x86 simulator, please build your project only on armv7 devices
 
 ### Two way audio support (draft)
@@ -94,7 +94,7 @@ TwoWayAudioController header:
 @end
 
 ```
-
+#### How to use with DeviceRollingController
 In your ViewController header:
 ```objective-c
 #import <DeviceRolling/DeviceRollingController.h>
