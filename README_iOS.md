@@ -29,7 +29,7 @@ In your ViewController implement:
                                                   password:YOUR_VIVOTEK_PASSWORD];
 }
 
-// The delegate will be called when connection has done
+// Implement DeviceRollingControllerDelegate
 - (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo
                            status:(DeviceRollingStatus)rollingStatus
                              type:(DeviceRollingType)rollingType
@@ -81,7 +81,7 @@ In your ViewController implement:
     self.twoWayAudioController = [[TwoWayAudioController alloc] initWithDelegate:self];
 }
 
-// The delegate will be called when connection has done
+// Implement DeviceRollingControllerDelegate
 - (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo
                            status:(DeviceRollingStatus)rollingStatus
                              type:(DeviceRollingType)rollingType
@@ -141,10 +141,20 @@ In your ViewController implement:
     [self.twoWayAudioController stop];
 }
 
-// The delegate will be called when two way audio connection has lost
+// Implement DeviceRollingControllerDelegate
+- (void)twoWayAudioDidConnected
+{
+    // Ready to talk
+}
+
+- (void)twoWayAudioDidFail
+{
+    // Fail to connect
+}
+
 - (void)twoWayAudioDidDisconnected
 {
-    [self.twoWayAudioController stop];
+    // Lost connection
 }
 
 ```
