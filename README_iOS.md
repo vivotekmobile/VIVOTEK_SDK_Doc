@@ -50,7 +50,7 @@ In your ViewController implement:
 ### Note
 - DeviceRolling.framework doesn't support x86 simulator, please build your project only on armv7 devices
 
-### Two way audio support
+### Two way audio support (draft)
 In your ViewController header:
 ```objective-c
 #import <DeviceRolling/DeviceRollingController.h>
