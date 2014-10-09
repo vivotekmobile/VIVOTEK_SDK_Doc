@@ -36,29 +36,6 @@ In your ViewController implement:
                         p2pstatus:(P2PStatusType)p2pStatus
 {
     // You will get a DeviceInfo object containing device ID, firmware version, username, password, IPs and ports
-    
-    NSLog(@"%@", deviceInfo.deviceID);
-    
-    if (rollingStatus == StatusOK)
-    {
-        switch (rollingType)
-        {
-            case PUBLIC:
-                NSLog(@"%@ %@ %@ %@", deviceInfo.publicIP, deviceInfo.publicHTTPPort, deviceInfo.publicHTTPSPort, deviceInfo.publicRTSPPort);
-                break;
-            case LAN:
-                NSLog(@"%@ %@ %@ %@", deviceInfo.lanIP, deviceInfo.lanHTTPPort, deviceInfo.lanHTTPSPort, deviceInfo.lanRTSPPort);
-                break;
-            case P2P:
-                NSLog(@"%@ %@ %@ %@", deviceInfo.p2pIP, deviceInfo.p2pHTTPPort, deviceInfo.p2pHTTPSPort, deviceInfo.p2pRTSPPort);
-                break;
-            case RELAY:
-                NSLog(@"%@ %@ %@ %@", deviceInfo.relayIP, deviceInfo.relayPort, deviceInfo.relayHTTPSPort, deviceInfo.relayRTSPPort);
-                break;
-            default:
-                break;
-        }
-    };
 }
 ```
 
@@ -112,8 +89,6 @@ In your ViewController implement:
 {
     // You will get a DeviceInfo object containing device ID, firmware version, username, password, IPs and ports
     
-    NSLog(@"%@", deviceInfo.deviceID);
-    
     if (rollingStatus == StatusOK)
     {
         NSString *bestIP;
@@ -155,12 +130,19 @@ In your ViewController implement:
     }
 }
 
+// Control your two way audio function
 - (void)enableTwoWayAudio
 {
     [self.twoWayAudioController start];
 }
 
 - (void)disableTwoWayAudio
+{
+    [self.twoWayAudioController stop];
+}
+
+// The delegate will be called when two way audio connection has lost
+- (void)twoWayAudioDidDisconnected
 {
     [self.twoWayAudioController stop];
 }
