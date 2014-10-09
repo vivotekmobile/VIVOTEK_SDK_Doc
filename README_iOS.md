@@ -30,10 +30,35 @@ In your ViewController implement:
 }
 
 // The delegate will be called when P2P connection has done
-- (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo status:(DeviceStatusType)statusType
+- (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo
+                           status:(DeviceRollingStatus)rollingStatus
+                             type:(DeviceRollingType)rollingType
+                        p2pstatus:(P2PStatusType)p2pStatus
 {
-    // You will get a DeviceInfo object containing device ID, firmware version, username, password & P2P ports
-    // If P2P connection has fail, you could check the DeviceStatusType for more information
+    // You will get a DeviceInfo object containing device ID, firmware version, username, password, IPs and ports
+    
+    NSLog(@"%@", deviceInfo.deviceID);
+    
+    if (rollingStatus == StatusOK)
+    {
+        switch (rollingType)
+        {
+            case PUBLIC:
+                NSLog(@"%@ %@ %@ %@", deviceInfo.publicIP, deviceInfo.publicHTTPPort, deviceInfo.publicHTTPSPort, deviceInfo.publicRTSPPort);
+                break;
+            case LAN:
+                NSLog(@"%@ %@ %@ %@", deviceInfo.lanIP, deviceInfo.lanHTTPPort, deviceInfo.lanHTTPSPort, deviceInfo.lanRTSPPort);
+                break;
+            case P2P:
+                NSLog(@"%@ %@ %@ %@", deviceInfo.p2pIP, deviceInfo.p2pHTTPPort, deviceInfo.p2pHTTPSPort, deviceInfo.p2pRTSPPort);
+                break;
+            case RELAY:
+                NSLog(@"%@ %@ %@ %@", deviceInfo.relayIP, deviceInfo.relayPort, deviceInfo.relayHTTPSPort, deviceInfo.relayRTSPPort);
+                break;
+            default:
+                break;
+        }
+    };
 }
 ```
 
