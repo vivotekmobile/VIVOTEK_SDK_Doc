@@ -29,7 +29,7 @@ In your ViewController implement:
                                                   password:YOUR_VIVOTEK_PASSWORD];
 }
 
-// The delegate will be called when P2P connection has done
+// The delegate will be called when connection has done
 - (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo
                            status:(DeviceRollingStatus)rollingStatus
                              type:(DeviceRollingType)rollingType
