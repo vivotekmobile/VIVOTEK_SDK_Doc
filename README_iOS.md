@@ -154,7 +154,7 @@ In your ViewController implement:
     }
 }
 
-// Control your two way audio
+// Control your two way audio by UI
 - (void)enableTwoWayAudio
 {
     [self.twoWayAudioController start];
