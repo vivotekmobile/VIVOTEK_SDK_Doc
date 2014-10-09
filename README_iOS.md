@@ -1,7 +1,28 @@
-DeviceRollingLib for iOS
+VIVOTEK SDK for iOS
 ================
 
-### How to use
+### P2P Rolling
+DeviceRollingController header:
+```objective-c
+@interface DeviceRollingController : NSObject
+
+@property (weak, nonatomic) id<DeviceRollingControllerDelegate> delegate;
+
+- (id)initWithP2PServerIP:(NSString *)IP port:(int)port delegate:(id)delegate;
+- (void)getDeviceInfoOfID:(NSString *)deviceID username:(NSString *)username password:(NSString *)password;
+
+@end
+
+@protocol DeviceRollingControllerDelegate<NSObject>
+
+- (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo
+                           status:(DeviceRollingStatus)rollingStatus
+                             type:(DeviceRollingType)rollingType
+                        p2pstatus:(P2PStatusType)p2pStatus;
+
+@end
+```
+
 In your ViewController header:
 
 ```objective-c
