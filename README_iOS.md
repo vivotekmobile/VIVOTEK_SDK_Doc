@@ -51,6 +51,29 @@ In your ViewController implement:
 - DeviceRolling.framework doesn't support x86 simulator, please build your project only on armv7 devices
 
 ### Two way audio support (draft)
+TwoWayAudioController header:
+```objective-c
+@interface TwoWayAudioController : NSObject
+
+@property (weak, nonatomic) id<TwoWayAudioControllerDelegate> delegate;
+
+- (id)initWithDelegate:(id) delegate;
+- (void)setupWithIP:(NSString *)IP Port:(int)port Username:(NSString *)username Password:(NSString *)password;
+- (void)start;
+- (void)stop;
+
+@end
+
+@protocol TwoWayAudioControllerDelegate<NSObject>
+
+- (void)twoWayAudioDidConnected;
+- (void)twoWayAudioDidFail;
+- (void)twoWayAudioDidDisconnected;
+
+@end
+
+```
+
 In your ViewController header:
 ```objective-c
 #import <DeviceRolling/DeviceRollingController.h>
@@ -126,11 +149,12 @@ In your ViewController implement:
                 break;
         }
 
+        // Setup TwoWayAudioController with your device's available IP & port
         [self.twoWayAudioController setupWithIP:bestIP Port:bestHttpPPort Username:YOUR_VIVOTEK_USERNAME Password:YOUR_VIVOTEK_PASSWORD];
     }
 }
 
-// Control your two way audio function
+// Control your two way audio
 - (void)enableTwoWayAudio
 {
     [self.twoWayAudioController start];
@@ -141,7 +165,7 @@ In your ViewController implement:
     [self.twoWayAudioController stop];
 }
 
-// Implement DeviceRollingControllerDelegate
+// Implement TwoWayAudioControllerDelegate
 - (void)twoWayAudioDidConnected
 {
     // Ready to talk
