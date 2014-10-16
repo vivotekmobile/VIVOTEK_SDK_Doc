@@ -31,7 +31,9 @@ public class MainActivity extends Activity implements DeviceRollingControllerDel
     }
 }
 
-// Implement the DeviceRollingControllerDelegate
+// Implement both DeviceRollingControllerDelegate, though you may need only one of them
+
+// The delegate providing the the most useful info for you
 @Override
 public void getDeviceInfoDidCompleted(final DeviceInfo deviceInfo, final DeviceRollingStatus rollingStatus, final P2PStatusType p2pStatusType)
 {
@@ -39,7 +41,7 @@ public void getDeviceInfoDidCompleted(final DeviceInfo deviceInfo, final DeviceR
     // IP, http/https/rtsp ports for the current best connection type
 }
 
-// Or another delegate providing more details
+// Or the alternative delegate providing more details if you like
 @Override
 public void getDeviceInfoDidCompleted(final DetailedDeviceInfo deviceInfo, final DeviceRollingStatus rollingStatus, final DeviceRollingType rollingType, final P2PStatusType p2pStatusType)
 {
