@@ -54,7 +54,9 @@ In your ViewController implement:
                                                   password:YOUR_VIVOTEK_PASSWORD];
 }
 
-// Implement the DeviceRollingControllerDelegate
+// Implement one of the DeviceRollingControllerDelegate
+
+// The delegate providing the the most useful info for you
 - (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo
                                  status:(DeviceRollingStatus)rollingStatus
                               p2pstatus:(P2PStatusType)p2pStatus
@@ -63,7 +65,7 @@ In your ViewController implement:
     // IP, http/https/rtsp ports for the current best connection type
 }
 
-// Or another delegate providing more details
+// Or the alternative delegate providing more details if you like
 - (void)getDeviceInfoDidCompleted:(DetailDeviceInfo *)deviceInfo
                            status:(DeviceRollingStatus)rollingStatus
                              type:(DeviceRollingType)rollingType
