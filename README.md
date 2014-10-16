@@ -1,4 +1,4 @@
-VIVOTEK SDK for iOS
+VIVOTEK SDK Overview
 ================
 
 ### P2P Rolling
