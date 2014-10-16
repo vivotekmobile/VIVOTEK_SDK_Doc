@@ -6,7 +6,10 @@ In your Activity:
 
 ```java
 import com.vivotek.devicerolling.DeviceInfo;
-import com.vivotek.devicerolling.DeviceStatusType;
+import com.vivotek.devicerolling.DetailedDeviceInfo;
+import com.vivotek.devicerolling.DeviceRollingStatus;
+import com.vivotek.devicerolling.DeviceRollingType;
+import com.vivotek.devicerolling.P2PStatusType;
 import com.vivotek.devicerolling.DeviceRollingController;
 import com.vivotek.devicerolling.DeviceRollingController.DeviceRollingControllerDelegate;
 
@@ -28,13 +31,22 @@ public class MainActivity extends Activity implements DeviceRollingControllerDel
     }
 }
 
-// The delegate will be called when P2P connection has done
+// Implement the DeviceRollingControllerDelegate
 @Override
-public void getDeviceInfoDidCompleted(DeviceInfo deviceInfo, DeviceStatusType status)
+public void getDeviceInfoDidCompleted(final DeviceInfo deviceInfo, final DeviceRollingStatus rollingStatus, final P2PStatusType p2pStatusType)
 {
-    // You will get a DeviceInfo object containing device ID, firmware version, username, password & P2P ports
-    // If P2P connection has fail, you could check the DeviceStatusType for more information
+    // You will get a DeviceInfo object containing device ID, firmware version, username, password, 
+    // IP, http/https/rtsp ports for the current best connection type
 }
+
+// Or another delegate providing more details
+@Override
+public void getDeviceInfoDidCompleted(final DetailedDeviceInfo deviceInfo, final DeviceRollingStatus rollingStatus, final DeviceRollingType rollingType, final P2PStatusType p2pStatusType)
+{
+    // You will get a DetailDeviceInfo object containing device ID, firmware version, username, password, 
+    // a set of IPs and http/https/rtsp ports for all kinds of available connection types and the current best connection type
+}
+
 ```
 
 ### Installation
