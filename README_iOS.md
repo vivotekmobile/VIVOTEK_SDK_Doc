@@ -60,7 +60,7 @@ In your ViewController implement:
                               p2pstatus:(P2PStatusType)p2pStatus
 {
     // You will get a DeviceInfo object containing device ID, firmware version, username, password, 
-    // IP, http/https/rtsp ports for the current available rolling type
+    // IP, http/https/rtsp ports for the current best connection type
 }
 
 // Or another delegate providing more details
@@ -70,7 +70,7 @@ In your ViewController implement:
                         p2pstatus:(P2PStatusType)p2pStatus
 {
     // You will get a DetailDeviceInfo object containing device ID, firmware version, username, password, 
-    // a set of IPs and http/https/rtsp ports for all kinds of rolling type and the current available rolling type
+    // a set of IPs and http/https/rtsp ports for all kinds of available connection types and the current best connection type
 }
 ```
 
