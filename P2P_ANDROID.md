@@ -1,4 +1,4 @@
-DeviceRollingLib for Android
+P2P Rolling for Android
 ================
 
 ### How to use
