@@ -58,17 +58,21 @@ In your ViewController implement:
 }
 
 // Control your two way audio by UI
-- (void)enableTwoWayAudio
+- (IBAction)buttonDidTouch:(UIButton *)sender
 {
-    [self.audioUploadController start];
+    sender.selected = !sender.selected;
+    
+    if (sender.selected)
+    {
+        [self.audioUploadController start];
+    }
+    else
+    {
+        [self.audioUploadController stop];
+    }
 }
 
-- (void)disableTwoWayAudio
-{
-    [self.audioUploadController stop];
-}
-
-// Implement TwoWayAudioControllerDelegate
+// Implement AudioUploadControllerDelegate
 
 - (void)audioUploadDidFail
 {
