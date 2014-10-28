@@ -30,7 +30,7 @@ AudioUploadController header:
 
 
 ```
-#### How to use with DeviceRollingController
+#### How to use
 In your ViewController header:
 ```objective-c
 #import <AudioUpload/AudioUploadController.h>
