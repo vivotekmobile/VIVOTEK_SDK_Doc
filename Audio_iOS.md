@@ -1,35 +1,42 @@
-### Two way audio support (draft)
-TwoWayAudioController header:
+### Audio Upload
+AudioUploadController header:
 ```objective-c
-@interface TwoWayAudioController : NSObject
+@protocol AudioUploadControllerDelegate<NSObject>
 
-@property (weak, nonatomic) id<TwoWayAudioControllerDelegate> delegate;
+- (void)audioUploadDidFail;
+- (void)audioUploadDidDisconnected;
 
-- (id)initWithDelegate:(id) delegate;
-- (void)setupWithIP:(NSString *)IP Port:(int)port Username:(NSString *)username Password:(NSString *)password;
+@end
+
+@interface AudioUploadController : NSObject <AVAudioSessionDelegate>
+
+@property (weak, nonatomic) id<AudioUploadControllerDelegate> delegate;
+
+@property (strong, nonatomic) NSString *IP;
+@property (nonatomic) int port;
+@property (strong, nonatomic) NSString *url;
+@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic) NSString *password;
+@property (nonatomic) BOOL useHTTPS;
+@property (nonatomic) double voiceDetectLevelThreshold;
+
+- (id)initWithDelegate:(id)delegate useHTTPS:(BOOL)useHTTPS;
+- (void)setupWithIP:(NSString *)IP Port:(int)port URL:(NSString *)url Username:(NSString *)username Password:(NSString *)password;
+- (void)setVoiceDetectLevelThreshold:(double)dbLevel;
 - (void)start;
 - (void)stop;
 
 @end
 
-@protocol TwoWayAudioControllerDelegate<NSObject>
-
-- (void)twoWayAudioDidConnected;
-- (void)twoWayAudioDidFail;
-- (void)twoWayAudioDidDisconnected;
-
-@end
 
 ```
 #### How to use with DeviceRollingController
 In your ViewController header:
 ```objective-c
-#import <DeviceRolling/DeviceRollingController.h>
-#import <TwoWayAudioController.h>
+#import <AudioUpload/AudioUploadController.h>
 
-@interface ViewController : UIViewController<DeviceRollingControllerDelegate, TwoWayAudioControllerDelegate>
-@property (strong, nonatomic) DeviceRollingController *deviceRollingController;
-@property (strong, nonatomic) TwoWayAudioController *twoWayAudioController;
+@interface ViewController : UIViewController<AudioUploadControllerDelegate>
+@property (strong, nonatomic) AudioUploadController *audioUploadController;
 ```
 
 In your ViewController implement:
@@ -38,93 +45,37 @@ In your ViewController implement:
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Init the DeviceRollingController with P2P server and delegate. 
-    // A DeviceRollingController instance can be reuse for connecting to different devices, you don't need to create another new instance for each device.
     
-    self.deviceRollingController = [[DeviceRollingController alloc] initWithP2PServerIP:YOUR_VIVOTEK_P2P_SERVER_IP port:YOUR_VIVOTEK_P2P_SERVER_PORT delegate:self];
-
-    // As long as the DeviceRollingController has init, you can always call this function to establish P2P connection and get the latest P2P ports for your device
-    [self.deviceRollingController getDeviceInfoOfID:YOUR_VIVOTEK_DEVICE_ID
-                                                  username:YOUR_VIVOTEK_USERNAME
-                                                  password:YOUR_VIVOTEK_PASSWORD];
-                                                  
-    self.twoWayAudioController = [[TwoWayAudioController alloc] initWithDelegate:self];
-}
-
-// Implement DeviceRollingControllerDelegate
-- (void)getDeviceInfoDidCompleted:(DeviceInfo *)deviceInfo
-                           status:(DeviceRollingStatus)rollingStatus
-                             type:(DeviceRollingType)rollingType
-                        p2pstatus:(P2PStatusType)p2pStatus
-{
-    // You will get a DeviceInfo object containing device ID, firmware version, username, password, IPs and ports
+    self.audioUploadController = [[AudioUploadController alloc] initWithDelegate:self useHTTPS:NO];
     
-    if (rollingStatus == StatusOK)
-    {
-        NSString *bestIP;
-        int bestHttpPort;
-        int bestHttpsPort;
-        int bestRtspPort;
-        
-        switch (rollingType)
-        {
-            case PUBLIC:
-                bestIP = deviceInfo.publicIP;
-                bestHttpPort = deviceInfo.publicHTTPPort;
-                bestHttpsPort = deviceInfo.publicHTTPSPort;
-                bestRtspPort = deviceInfo.publicRTSPPort;
-                break;
-            case LAN:
-                bestIP = deviceInfo.lanIP;
-                bestHttpPort = deviceInfo.lanHTTPPort;
-                bestHttpsPort = deviceInfo.lanHTTPSPort;
-                bestRtspPort = deviceInfo.lanRTSPPort;
-                break;
-            case P2P:
-                bestIP = deviceInfo.p2pIP;
-                bestHttpPort = deviceInfo.p2pHTTPPort;
-                bestHttpsPort = deviceInfo.p2pHTTPSPort;
-                bestRtspPort = deviceInfo.p2pRTSPPort;
-                break;
-            case RELAY:
-                bestIP = deviceInfo.relayIP;
-                bestHttpPort = deviceInfo.relayHTTPPort;
-                bestHttpsPort = deviceInfo.relayHTTPSPort;
-                bestRtspPort = deviceInfo.relayRTSPPort;
-                break;
-            default:
-                break;
-        }
-
-        // Setup TwoWayAudioController with your device's available IP & port
-        [self.twoWayAudioController setupWithIP:bestIP Port:bestHttpPPort Username:YOUR_VIVOTEK_USERNAME Password:YOUR_VIVOTEK_PASSWORD];
-    }
+    [self.audioUploadController setupWithIP:YOUR_DEVICE_IP
+                                       Port:YOUR_DEVICE_PORT
+                                        URL:YOUR_DEVICE_AUDIO_UPLOAD_URL // Ex: @"/vivint/g711.cgi?cameraID=0002D100AABB"
+                                   Username:YOUR_DEVICE_USERNAME
+                                   Password:YOUR_DEVICE_PASSWORD];
+                                   
+    [self.audioUploadController setVoiceDetectLevelThreshold:-25.0f]; // Default value will be -25.0f if you don't set one
 }
 
 // Control your two way audio by UI
 - (void)enableTwoWayAudio
 {
-    [self.twoWayAudioController start];
+    [self.audioUploadController start];
 }
 
 - (void)disableTwoWayAudio
 {
-    [self.twoWayAudioController stop];
+    [self.audioUploadController stop];
 }
 
 // Implement TwoWayAudioControllerDelegate
-- (void)twoWayAudioDidConnected
-{
-    // Ready to talk
-}
 
-- (void)twoWayAudioDidFail
+- (void)audioUploadDidFail
 {
     // Fail to connect
 }
 
-- (void)twoWayAudioDidDisconnected
+- (void)audioUploadDidDisconnected
 {
     // Lost connection
 }
