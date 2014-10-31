@@ -143,11 +143,10 @@ The AudioUploadController instance can be reused to connect to another device:
 
 ### Installation
 - Copy AudioUpload.framework to your project path
-- Add AudioUpload.framework to your project Build Phases -> Link Binary With Libraries
-- Alos add AVFoundation, AudioToolbox framework to your project Build Phases -> Link Binary With Libraries
+- Add AudioUpload.framework, AVFoundation, AudioToolbox to your project Build Phases -> Link Binary With Libraries
 - Select "libstdc++ (GNU C++ standard library)" in Build Settings -> C++ Standard Library
 - Rename your objective-c files in your project from .m to .mm, including main, app delegate and view controllers
 - Run your project
 
 ### Note
-- AudioUpload.framework support armv7, armv7s, arm64
+- AudioUpload framework support armv7, armv7s, arm64
