@@ -42,7 +42,8 @@ In your main:
 ```objective-c
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        signal(SIGPIPE, SIG_IGN); // Ignore SIGPIPE signal, othewise the app will force closed because of capturing the unhandled signals. It's OK to ignore this.
+        signal(SIGPIPE, SIG_IGN); 
+        // Ignore SIGPIPE signal, othewise the app will force closed because of capturing the unhandled signals. It's OK to ignore this.
         // Note: If you are debugging the app using Xcode, all signals will still not be ignored due to Xcode debugger.
         
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
