@@ -36,10 +36,20 @@ AudioUploadController header:
 - (void)stop;
 
 @end
-
-
 ```
 #### How to use
+In your main:
+```objective-c
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
+        signal(SIGPIPE, SIG_IGN); // Ignore SIGPIPE signal, othewise the app will force closed because of capturing the unhandled signals. It's OK to ignore this.
+        // Note: If you are debugging the app using Xcode, all signals will still not be ignored due to Xcode debugger.
+        
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+    }
+}
+```
+
 In your ViewController header:
 ```objective-c
 #import <AudioUpload/AudioUploadController.h>
@@ -129,3 +139,14 @@ The AudioUploadController instance can be reused to connect to another device:
 // Start it again
 [self.audioUploadController start];
 ```
+
+### Installation
+- Copy AudioUpload.framework to your project path
+- Add AudioUpload.framework to your project Build Phases -> Link Binary With Libraries
+- Alos add AVFoundation, AudioToolbox framework to your project Build Phases -> Link Binary With Libraries
+- Select "libstdc++ (GNU C++ standard library)" in Build Settings -> C++ Standard Library
+- Rename your objective-c files in your project from .m to .mm, including main, app delegate and view controllers
+- Run your project
+
+### Note
+- AudioUpload.framework support armv7, armv7s, arm64
