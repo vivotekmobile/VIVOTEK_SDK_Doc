@@ -3,7 +3,10 @@ AudioUploadController header:
 ```objective-c
 @protocol AudioUploadControllerDelegate<NSObject>
 
-- (void)audioUploadDidFail;
+- (void)audioUploadInitAudioSessionFail;
+- (void)audioUploadAuthFail;
+- (void)audioUploadConnectFail;
+- (void)audioUploadDidConnected;
 - (void)audioUploadDidDisconnected;
 
 @end
@@ -18,10 +21,16 @@ AudioUploadController header:
 @property (strong, nonatomic) NSString *username;
 @property (strong, nonatomic) NSString *password;
 @property (nonatomic) BOOL useHTTPS;
-@property (nonatomic) double voiceDetectLevelThreshold;
 
-- (id)initWithDelegate:(id)delegate useHTTPS:(BOOL)useHTTPS;
-- (void)setupWithIP:(NSString *)IP Port:(int)port URL:(NSString *)url Username:(NSString *)username Password:(NSString *)password;
+- (id)initWithDelegate:(id)delegate;
+
+- (void)setupWithIP:(NSString *)IP
+               port:(int)port
+                url:(NSString *)url
+           username:(NSString *)username
+           password:(NSString *)password
+           useHTTPS:(BOOL)useHTTPS;
+
 - (void)setVoiceDetectLevelThreshold:(double)dbLevel;
 - (void)start;
 - (void)stop;
@@ -46,15 +55,16 @@ In your ViewController implement:
 {
     [super viewDidLoad];
     
-    self.audioUploadController = [[AudioUploadController alloc] initWithDelegate:self useHTTPS:NO];
+    self.audioUploadController = [[AudioUploadController alloc] initWithDelegate:self];
     
     [self.audioUploadController setupWithIP:YOUR_DEVICE_IP
-                                       Port:YOUR_DEVICE_PORT
-                                        URL:YOUR_DEVICE_AUDIO_UPLOAD_URL // Ex: @"/vivint/g711.cgi?cameraID=0002D100AABB"
-                                   Username:YOUR_DEVICE_USERNAME
-                                   Password:YOUR_DEVICE_PASSWORD];
+                                       port:YOUR_DEVICE_PORT
+                                        url:YOUR_DEVICE_AUDIO_UPLOAD_URL // Eg:"/vivint/g711.cgi?cameraID=0002D100AABB"
+                                   username:YOUR_DEVICE_USERNAME
+                                   password:YOUR_DEVICE_PASSWORD
+                                   useHTTPS:NO];
                                    
-    [self.audioUploadController setVoiceDetectLevelThreshold:-25.0f]; // Default value will be -25.0f if you don't set one
+    [self.audioUploadController setVoiceDetectLevelThreshold:-25.0f]; // Default value will be -25.0f if you don't set it
 }
 
 // Control your two way audio by UI
@@ -74,14 +84,48 @@ In your ViewController implement:
 
 // Implement AudioUploadControllerDelegate
 
-- (void)audioUploadDidFail
+- (void)audioUploadInitAudioSessionFail
 {
-    // Fail to connect
+    // Fail to set & active iOS shared AVAudioSession
+    // This should never happen.
+}
+
+- (void)audioUploadAuthFail
+{
+    // Authentication fail.
+}
+
+- (void)audioUploadConnectFail
+{
+    // Connection fail.
+}
+
+- (void)audioUploadDidConnected
+{
+    // Connected. You could start talking now.
+    // After calling [start], you will receive this if everything is OK. 
 }
 
 - (void)audioUploadDidDisconnected
 {
-    // Lost connection
+    // Disconnected.
+    // After calling [stop] or something wrong during talking, you will receive this.
 }
 
+```
+
+The AudioUploadController instance can be reused to connect to another device:
+```objective-c
+// Stop it first
+[self.audioUploadController stop];
+
+// Setup to another device
+[self.audioUploadController setupWithIP:YOUR_DEVICE_IP
+                                       port:YOUR_DEVICE_PORT
+                                        url:YOUR_DEVICE_AUDIO_UPLOAD_URL // Eg:"/vivint/g711.cgi?cameraID=0002D100AABB"
+                                   username:YOUR_DEVICE_USERNAME
+                                   password:YOUR_DEVICE_PASSWORD
+                                   useHTTPS:NO];
+// Start it again
+[self.audioUploadController start];
 ```
