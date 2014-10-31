@@ -122,7 +122,7 @@ The AudioUploadController instance can be reused to connect to another device:
 // Setup to another device
 [self.audioUploadController setupWithIP:YOUR_DEVICE_IP
                                        port:YOUR_DEVICE_PORT
-                                        url:YOUR_DEVICE_AUDIO_UPLOAD_URL // Eg:"/vivint/g711.cgi?cameraID=0002D100AABB"
+                                        url:YOUR_DEVICE_AUDIO_UPLOAD_URL
                                    username:YOUR_DEVICE_USERNAME
                                    password:YOUR_DEVICE_PASSWORD
                                    useHTTPS:NO];
