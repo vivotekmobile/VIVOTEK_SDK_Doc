@@ -109,25 +109,25 @@ In your ViewController implement:
 - (void)audioUploadAuthFail
 {
     // 401 Authentication fail.
-    // Can't access the target device using the provided username or password
+    // Can't access the target device using the provided username and password.
 }
 
 - (void)audioUploadConnectFail
 {
     // Connection fail.
-    // Can't connect to the target device
+    // Can't connect to the target device.
 }
 
 - (void)audioUploadServiceUnavailable
 {
     // 503 Service Unavailable
-    // The audio upload service of the target device is unavailable
+    // The audio upload service of the target device is unavailable.
 }
 
 - (void)audioUploadDidDisconnected
 {
     // Disconnected. 
-    // Fail to upload audio during talking. Either mobile device or the target device is disconnected.
+    // Fail to upload audio during talking. Either the mobile device or the target device is disconnected.
 }
 
 ```
