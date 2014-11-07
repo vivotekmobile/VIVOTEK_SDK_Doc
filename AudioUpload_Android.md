@@ -65,17 +65,17 @@ public void audioUploadConnectFail()
 }
 
 @Override
-public void audioUploadDidDisconnected()
-{     
-    // Disconnected. 
-    // Fail to upload audio during talking. Either the mobile device or the target device is disconnected.
-}
-    
-@Override
 public void audioUploadServiceUnavailable()
 {     
     // 503 Service Unavailable
     // The audio upload service of the target device is unavailable.
+}
+
+@Override
+public void audioUploadDidDisconnected()
+{     
+    // Disconnected. 
+    // Fail to upload audio during talking. Either the mobile device or the target device is disconnected.
 }
 
 ```
