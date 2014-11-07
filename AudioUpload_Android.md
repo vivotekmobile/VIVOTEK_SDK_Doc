@@ -8,6 +8,7 @@ import com.vivotek.camkeeper.AudioCapturer;
 public class MainActivity extends Activity implements AudioCapturer.AudioUploadCallback
 {
     private AudioCapturer mAudioCapturer = null;
+    private Button mButton = null;
     
     @Override
     public void onCreate(Bundle savedInstanceState)
