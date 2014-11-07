@@ -1,4 +1,23 @@
 ### Audio Upload
+AudioCapturer header:
+```java
+public interface AudioUploadCallback
+{
+    void audioUploadDidConnected();
+    void audioUploadInitAudioFail();
+    void audioUploadAuthFail();
+    void audioUploadConnectFail();
+    void audioUploadServiceUnavailable();
+    void audioUploadDidDisconnected();
+}
+
+public static AudioCapturer getInstance();
+public void initWithCallback(AudioUploadCallback callback);
+public void setup(String IP, int port, String url, final String username, final String password, boolean useHTTPS);
+public void start(); 
+public void stop();
+```
+
 #### How to use
 In your Activity:
 
