@@ -143,7 +143,7 @@ The AudioUploadController instance can be reused to connect to another device:
                                         url:YOUR_DEVICE_AUDIO_UPLOAD_URL
                                    username:YOUR_DEVICE_USERNAME
                                    password:YOUR_DEVICE_PASSWORD
-                                   useHTTPS:NO];
+                                   useHTTPS:USE_HTTPS];
 // Start it again
 [self.audioUploadController start];
 ```
@@ -155,5 +155,8 @@ The AudioUploadController instance can be reused to connect to another device:
 - Rename your objective-c files in your project from .m to .mm, including main, app delegate and view controllers
 - Run your project
 
-### Note
-- AudioUpload framework support x86, armv7, armv7s, arm64
+### Support architecture
+- x86, armv7, armv7s, arm64
+
+### Reqiured iOS SDK version
+- iOS 6.0 or above
