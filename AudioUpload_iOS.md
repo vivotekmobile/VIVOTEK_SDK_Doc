@@ -3,10 +3,11 @@ AudioUploadController header:
 ```objective-c
 @protocol AudioUploadControllerDelegate<NSObject>
 
-- (void)audioUploadInitAudioSessionFail;
+- (void)audioUploadDidConnected;
+- (void)audioUploadInitFail;
 - (void)audioUploadAuthFail;
 - (void)audioUploadConnectFail;
-- (void)audioUploadDidConnected;
+- (void)audioUploadServiceUnavailable;
 - (void)audioUploadDidDisconnected;
 
 @end
@@ -94,33 +95,39 @@ In your ViewController implement:
 }
 
 // Implement AudioUploadControllerDelegate
-
-- (void)audioUploadInitAudioSessionFail
+- (void)audioUploadDidConnected
 {
-    // Fail to set & active iOS shared AVAudioSession
-    // This should never happen.
+    // Connected. You could start talking now.
+}
+
+- (void)audioUploadInitFail
+{
+    // Fail to init system-side audio recording resource (AVAudioSession)
+    // The issue should be caused by the operation system.
 }
 
 - (void)audioUploadAuthFail
 {
-    // Authentication fail.
+    // 401 Authentication fail.
+    // Can't access the target device using the provided username or password
 }
 
 - (void)audioUploadConnectFail
 {
     // Connection fail.
+    // Can't connect to the target device
 }
 
-- (void)audioUploadDidConnected
+- (void)audioUploadServiceUnavailable
 {
-    // Connected. You could start talking now.
-    // After calling [start], you will receive this if everything is OK. 
+    // 503 Service Unavailable
+    // The audio upload service of the target device is unavailable
 }
 
 - (void)audioUploadDidDisconnected
 {
-    // Disconnected.
-    // After calling [stop] or something wrong during talking, you will receive this.
+    // Disconnected. 
+    // Fail to upload audio during talking. Either mobile device or the target device is disconnected.
 }
 
 ```
@@ -149,4 +156,4 @@ The AudioUploadController instance can be reused to connect to another device:
 - Run your project
 
 ### Note
-- AudioUpload framework support armv7, armv7s, arm64
+- AudioUpload framework support x86, armv7, armv7s, arm64
